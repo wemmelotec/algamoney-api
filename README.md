@@ -6,3 +6,11 @@
 * SpringBoot
 * Mysql
 * Flyway - utilizado para criação incremental das tabelas em meu banco.
+* Git e GitHub
+* Postman
+
+- [x] Criar a retrieve.
+- [ ] Criar o create.
+- [ ] Criar o update.
+- [ ] Criar o delete.
+
