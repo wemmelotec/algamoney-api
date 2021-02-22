@@ -14,7 +14,7 @@
 
 ## TaksLists
 - [x] Criar a retrieve.
-- [ ] Criar o create.
+- [x] Criar o create.
 - [ ] Criar o update.
 - [ ] Criar o delete.
 
