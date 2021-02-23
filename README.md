@@ -17,6 +17,7 @@
 - [x] Criar o create.
 - [ ] Criar o update.
 - [ ] Criar o delete.
+- [x] Implementei a validação de atributos desconhecidos no resquest, através da biblioteca Jackson.
 
 ## Dependências do projeto
 * spring-boot-starter-data-jpa
