@@ -18,9 +18,8 @@
 - [ ] Criar o update.
 - [ ] Criar o delete.
 - [x] Implementei a validação de atributos desconhecidos no resquest, através da biblioteca Jackson.
-- [x] Implementei o tratamento da exception handleHttpMessageNotReadable.
-* Ocorreu quando enviei um atributo que não existe no objeto.
-- [] BeanValidation. 
+- [x] Implementei o tratamento da exception handleHttpMessageNotReadable. Ocorreu quando enviei um atributo que não existe no objeto.
+- [x] Implementei o BeanValidation para validar valores inválidos. Como o null no campo nome.
 
 ## Dependências do projeto
 * spring-boot-starter-data-jpa
