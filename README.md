@@ -1,6 +1,6 @@
 # Algamoney-api
 
-> Este é um projeto de estudo desenvolvido acompanhando o curso para o desenvolvimento de uma API.
+> Este é um projeto de estudo desenvolvido acompanhando o curso da AlgaWoeks para o desenvolvimento de uma API.
 > Vou utilizar as idéias das arquiteturas SOFEA e REST no desenvolvimento desta API, utilizando o JSON para integração entre o frontend e o backend.
 
 ## Tecnologias utilizadas no projeto
@@ -18,8 +18,8 @@
 - [ ] Criar o update.
 - [ ] Criar o delete.
 - [x] Implementei a validação de atributos desconhecidos no resquest, através da biblioteca Jackson.
-- [x] Implementei o tratamento da exception handleHttpMessageNotReadable. Ocorreu quando enviei um atributo que não existe no objeto.
-- [x] Implementei o BeanValidation para validar valores inválidos. Como o null no campo nome.
+- [x] Implementei o tratamento da exception handleHttpMessageNotReadable. Ocorre quando enviei um atributo que não existe no objeto.
+- [x] Implementei o BeanValidation para validar o @NotNull e o @Size.
 
 ## Dependências do projeto
 * spring-boot-starter-data-jpa
@@ -27,3 +27,4 @@
 * spring-boot-devtools
 * mysql-connector-java
 * flyway-core
+* spring-boot-starter-validation
