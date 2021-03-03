@@ -5,6 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+
 
 @Entity //indica que a classe representa um modelo na tabela
 @Table(name = "categoria") //faz o mapeamento para a tabela
@@ -14,6 +18,8 @@ public class Categoria {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)//indica que o valor do ID será gerado pela tabela
 	private Long codigo;
 	
+	@NotNull//faz a validação através do bean validation
+	@Size(min=3, max=20)//faz a validação através do bean validation do tamanho do campo
 	private String nome;
 
 	public Long getCodigo() {

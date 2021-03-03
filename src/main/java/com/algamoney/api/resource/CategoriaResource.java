@@ -5,10 +5,12 @@ import java.util.List;
 
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +49,7 @@ public class CategoriaResource {
 	//@ResponseStatus(HttpStatus.CREATED)
 	//segunda versão do post, já implementando Rest, que indica que após salvar um objeto precisa retornar o location através do header
 	//e retorna também o recurso salvo
-	public ResponseEntity<Categoria> salvar(@RequestBody Categoria categoria, HttpServletResponse response) {
+	public ResponseEntity<Categoria> salvar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
 		 Categoria categoriaSalva =  categoriaRepository.save(categoria);
 		 
 		 URI uri =  ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(categoria.getCodigo()).toUri();
