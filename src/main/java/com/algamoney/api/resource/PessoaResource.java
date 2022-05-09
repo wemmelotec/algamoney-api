@@ -1,12 +1,10 @@
 package com.algamoney.api.resource;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -20,12 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.algamoney.api.event.RecursoCriadoEvent;
-import com.algamoney.api.model.Categoria;
 import com.algamoney.api.model.Pessoa;
 import com.algamoney.api.repository.PessoaRepository;
+import com.algamoney.api.service.PessoaService;
 
 @RestController
 @RequestMapping("pessoas")
@@ -33,6 +30,9 @@ public class PessoaResource {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private PessoaService pessoaService;
 	
 	@Autowired//responsável por disparar o evento de recurso criado a partir desse objeto
 	private ApplicationEventPublisher publisher;
@@ -69,13 +69,19 @@ public class PessoaResource {
 	
 	@PutMapping("/{codigo}")
 	public ResponseEntity<Pessoa> atualizar(@PathVariable Long codigo, @Valid @RequestBody Pessoa pessoa){
-		//primeira coisa, buscar a pessoa salva
-		Pessoa pessoaSalva = pessoaRepository.findById(codigo).orElse(null);
-		//agora preciso copiar as propriedades do objeto pessoa que eu recebi para pessoaSalva
-		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");//vou copiar de pessoa para pessoaSalva ignorando o codigo
-		//agora salvo a pessoa no banco
-		pessoaRepository.save(pessoaSalva);
-		//e depois retorno a pessoaSalva
+		
+		Pessoa pessoaSalva = pessoaService.atualizar(codigo, pessoa);
+		
 		return ResponseEntity.ok(pessoaSalva);
 	}
+	
+	//método para atualização parcial de uma propriedade que será exposta na linha (checkbox)
+    @PutMapping("/{codigo}/ativo")
+    //Como eu não preciso retorna nada quando eu atualizar essa propriedade vou utilizar o ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    //parâmetros; PathVariable para passar o código e o @RequestBody da propriedade/tipo que quero atualizar
+    public void atualizarPropriedadeAtivo(@PathVariable Long codigo, @RequestBody Boolean ativo){
+        //como tem regra de negócio vou colocar o método no PessoaService
+        pessoaService.atualizarPropriedadeAtivo(codigo, ativo);
+    }
 }
