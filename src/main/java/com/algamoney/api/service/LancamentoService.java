@@ -27,8 +27,9 @@ public class LancamentoService {
 	public Lancamento salvar(Lancamento lancamento) {
         //Essa linha vai buscar a pessoa que veio no lancamento
         Optional<Pessoa> pessoa = this.pessoaRepository.findById(lancamento.getCodigoPessoa().getCodigo());
+		 
         //Esse if faz a verificação se o atributo ativo em pessoa esta true
-        if(!pessoa.isPresent() || pessoa.get().isAtivo() ){
+        if(!pessoa.isPresent() || pessoa.get().isInativo() ){
             throw new PessoaInexistenteOuInativaException(); //essa linha lança a exceção que vou tratar em LancamentoResource
         }
         //Se tudo estiver ok, essa linha salva o objeto e retorna para o método na classe LancamentoResource

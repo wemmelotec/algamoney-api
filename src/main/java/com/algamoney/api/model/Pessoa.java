@@ -6,7 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "pessoa")
@@ -45,6 +48,11 @@ public class Pessoa {
 	}
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+	@JsonIgnore //para o jackson não achar que é uma propriedade e querer serializar
+	@Transient //para o hibernate também ignorar e não salvar no bd
+	public boolean isInativo() {
+		return !this.ativo;
 	}
 	@Override
 	public int hashCode() {

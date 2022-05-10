@@ -42,7 +42,7 @@ public class PessoaService {
     É bom deixar os métodos privados da classe no fim
      */
 
-    private Pessoa buscarPessoaPeloCodigo(Long codigo) {
+    public Pessoa buscarPessoaPeloCodigo(Long codigo) {
         return this.pessoaRepository.findById(codigo).orElseThrow(() -> new EmptyResultDataAccessException(1));
     }
 }
