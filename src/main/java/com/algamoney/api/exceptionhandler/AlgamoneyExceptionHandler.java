@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -74,6 +76,19 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
+	
+	//Esse método trata a exceção DataIntegrityViolationException, que vem da classe LancamentosResource
+    //quando eu tento salvar um lancamento com um código que não existe de categoria ou pessoa
+    @ExceptionHandler({DataIntegrityViolationException.class})//Se essa exceção for lançada, ela será recebida aqui.
+    //Parametros, a própria exceção DataIntegrityViolationException
+    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request){
+        //criando a lista de erro para o usuário que fez a requisição errada
+        String mensagemUsuario = messageSource.getMessage("recurso.operacao-nao-permitida", null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
 	
 	//como fica estranho concatenar as duas menssagens de retorno no handleExceptionInternal,
 	//eu posso criar uma classe com as messages e passar elas como parâmetro
