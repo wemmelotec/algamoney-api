@@ -82,7 +82,12 @@
             <artifactId>spring-security-oauth2</artifactId>
             <version>2.3.5.RELEASE</version>
         </dependency>
-        
+        <!-- dependencia do jwt-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+            <version>1.1.1.RELEASE</version>
+        </dependency>
         
 		
 	</dependencies>
