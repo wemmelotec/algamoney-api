@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,13 +39,15 @@ public class CategoriaResource {
 	
 	//@CrossOrigin(maxAge = 10, origins = {"http://localhost:8000"})
 	@GetMapping//mapear para receber requisições do tipo get em categorias
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')") //autorização
 	public ResponseEntity<?> listar(){
 		List<Categoria> categorias = categoriaRepository.findAll();
 		return !categorias.isEmpty() ? ResponseEntity.ok(categorias) : ResponseEntity.noContent().build();//o build é necessário para gerar um response entity
 	}
 	
 	
-	@PostMapping
+	@PostMapping	//autorização para o usuário				//permissão(scopo) para o client(aplicação)
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
 	public ResponseEntity<Categoria> salvar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
 		 Categoria categoriaSalva =  categoriaRepository.save(categoria);
 		 
@@ -54,6 +57,7 @@ public class CategoriaResource {
 	
 	
 	@GetMapping("/{codigo}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
 	public ResponseEntity<?> buscarPeloCodigo(@PathVariable Long codigo) {
 		Categoria categoria =   this.categoriaRepository.findById(codigo).orElse(null);
 		if(categoria != null) {
