@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -16,7 +17,10 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -26,7 +30,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		clients
 			.inMemory()
 			.withClient("angular")
-			.secret("@ngul@r0")
+			.secret("$2a$10$qVWS0VuXTCJYkLpk2W0K4OuxS/LhDtZYCmd9FEqKdN2p85GA6hzdu")
 			.scopes("read", "write")
 			.authorizedGrantTypes("password","refresh_token")
 			.accessTokenValiditySeconds(20)
@@ -39,9 +43,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints
 			.tokenStore(tokenStore())
-			.accessTokenConverter(accessTokenConverter())
-			.reuseRefreshTokens(false)
-			.authenticationManager(authenticationManager);
+	        .accessTokenConverter(this.accessTokenConverter())
+	        .reuseRefreshTokens(false)
+	        .userDetailsService(this.userDetailsService)
+	        .authenticationManager(this.authenticationManager);
 	}
 	/*
 	 * criei esse método e anotei como Bean para poder injetar ele em qualquer lugar
