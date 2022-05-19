@@ -9,4 +9,6 @@ import com.algamoney.api.repository.filter.LancamentoFilter;
 public interface LancamentoRepositoryQuery {
 
 	public Page<Lancamento> filtrar(LancamentoFilter lancamentoFilter, Pageable pageable);
+	
+	//faltando criar a assinatura do método da aula 7.1
 }

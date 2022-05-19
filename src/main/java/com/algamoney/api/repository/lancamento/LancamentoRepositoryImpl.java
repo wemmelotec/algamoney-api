@@ -43,7 +43,9 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
 		return new PageImpl<>(query.getResultList(), pageable, total(lancamentoFilter));
 	}
-
+	//faltando implementar o método da aula 7.1 de projeção
+	
+	
 	private Predicate[] criarRestricoes(LancamentoFilter lancamentoFilter, CriteriaBuilder builder,
 			Root<Lancamento> root) {
 		// agora tenho que criar uma lista de predicates
