@@ -88,6 +88,11 @@
             <artifactId>spring-security-jwt</artifactId>
             <version>1.1.1.RELEASE</version>
         </dependency>
+        <!-- dependencia do metamodel e criei um buid limpando o projeto no Run Configuration-->
+        <dependency>
+        	 <groupId>org.hibernate</groupId>
+    		<artifactId>hibernate-jpamodelgen</artifactId>
+        </dependency>
         
 		
 	</dependencies>
